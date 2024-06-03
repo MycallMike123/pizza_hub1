@@ -1,18 +1,9 @@
 from flask import Flask, render_template, jsonify
-from database import engine
-from sqlalchemy import text
+from database import load_restaurants_from_db
 
 
 app = Flask(__name__)
 
-
-def load_restaurants_from_db():
-  with engine.connect() as conn:
-    result = conn.execute(text("select * from restaurants"))
-    restaurants = []
-    for row in result.all():
-      restaurants.append(dict(row))
-    return restaurants
 
 @app.route("/")
 def hello_world():
