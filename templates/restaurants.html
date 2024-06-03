@@ -1,0 +1,15 @@
+<div class="border-bottom row" style="margin-bottom: 16px; padding-bottom: 8px;">
+  <div class="col-9">
+    <h4 style="margin-bottom: 4px; color: rgb(120, 120, 120);">{{restaurant['name']}}</h4>
+    <div style="color: rgb(100, 100, 100)">{{restaurant['description']}}</div>
+    <div><b>Location:</b> {{restaurant['location']}}</div>
+    <div><b>Cuisine:</b> {{restaurant['cuisine']}}</div>
+    <div><b>Price:</b> {{restaurant['price']}}</div>
+    {% if 'rating' in restaurant %}
+    <div><b>Rating:</b> {{restaurant['rating']}}</div>
+    {% endif %}
+  </div>
+  <div class="col-3">
+    <button type="button" class="btn btn-outline-primary">Order</button>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+language = "python3"
+run = "python app.py"
+modules = ["python-3.10:v25-20230920-d4ad2e4"]
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 38745
+externalPort = 3000
