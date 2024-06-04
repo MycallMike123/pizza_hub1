@@ -10,3 +10,15 @@ def load_restaurants_from_db():
     for row in result.all():
       restaurants.append(dict(row))
     return restaurants
+
+def load_restaurant_from_db(id):
+  with engine.connect() as conn:
+    result = conn.execute(
+      text("SELECT * FROM restaurants WHERE id = :val"), val = id
+    )
+
+    rows = result.all()
+    if len(rows) == 0:
+      return None
+    else:
+      return dict(rows[0])
