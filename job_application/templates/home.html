@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+
+{% block title %} Job Portal |  {% endblock %}
+
+{% block content %}
+
+{% include 'header.html' %}
+
+<div class="search-container">
+    <form action="{% url 'search' %}" method="GET" class="search-box">
+        <input type="text" name="keyword" placeholder="title, company, description, skills">
+        <input type="text" name="location" placeholder="location">
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+{% if user.is_authenticated %}
+<section class="job-list">
+    {% for advert in job_adverts %}
+        <div class="job-card">
+            <div class="job-card-header">
+                <h3 class="job-title">{{ advert.title }}</h3>
+                <span class="job-type-badge">{{ advert.job_type }}</span>
+            </div>
+
+            <p class="company-name"><strong>Company:</strong> {{ advert.company_name }}</p>
+            <p class="job-meta"><strong>Posted:</strong> {{ advert.created_at | naturalday | title }}</p>
+            <p class="job-description"><strong>Skills:</strong> {{ advert.skills|truncatechars:14 }}</p>
+
+            <div class="job-footer">
+                <a class="apply-button" href="{% url 'get_advert' advert.id %}">View Details</a>
+            </div>
+        </div>
+    {% empty %}
+        <div>
+            <p>No job adverts available</p>
+        </div>
+    {% endfor %}
+</section>
+
+
+<section>
+    <div class="pagination">
+        <div class="step-links">
+            {% if job_adverts.has_previous %}
+                <a class="pagination-link" href="?page={{ job_adverts.previous_page_number }}{% if request.GET.keyword %}&keyword={{ request.GET.keyword }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">« Previous</a>
+            {% else %}
+                <span class="pagination-disabled">« Previous</span>
+            {% endif %}
+    
+            <span class="pagination-current">
+                Page {{ job_adverts.number }} of {{ job_adverts.paginator.num_pages }}
+            </span>
+    
+            {% if job_adverts.has_next %}
+                <a class="pagination-link" href="?page={{ job_adverts.next_page_number }}{% if request.GET.keyword %}&keyword={{ request.GET.keyword }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">Next »</a>
+            {% else %}
+                <span class="pagination-disabled">Next »</span>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}
+
